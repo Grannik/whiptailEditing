@@ -1,0 +1,139 @@
+#!/bin/bash
+
+# Функция прописывающая цветовую схему образца файла whiptailColor
+function whiptailColor()
+{
+NEWT_COLORS='
+root=black,black     # это чёрный фон
+border=red,red       # это красная рамка
+window=green,green   # это зедёный фон окна
+shadow=brown,brown   # это коричневая тень
+title=black,blue     # это чёрный текст и синий фон титла
+button=black,magenta # это чёрный текст и сиреневый цвет кнопки
+# actbutton
+# checkbox
+# actcheckbox
+# entry
+# label
+# listbox
+# actlistbox
+textbox=black,cyan   # это чёрный текст и голубой фон
+#acttextbox
+#helpline
+#roottext
+#emptyscale
+#fullscale
+#disentry
+#compactbutton
+#actsellistbox
+#sellistbox
+' \
+whiptail --backtitle " Программа написана на Whiptail"\
+         --title "title"\
+         --msgbox "root=black,black     # это чёрный фон
+border=red,red       # это красная рамка
+window=green,green   # это зедёный фон окна
+shadow=brown,brown   # это коричневая тень
+title=black,blue     # это чёрный текст и синий фон титла
+button=black,magenta # это чёрный текст и сиреневый цвет кнопки
+# actbutton
+# checkbox
+# actcheckbox
+# entry
+# label
+# listbox
+# actlistbox
+textbox=black,cyan   # это чёрный текст и голубой фон
+#acttextbox
+#helpline
+#roottext
+#emptyscale
+#fullscale
+#disentry
+#compactbutton
+#actsellistbox
+#sellistbox" 0 0
+}
+
+# Функция прописывающая логическую схему образца файла whiptailMenuColor
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+    status="0"
+    while [ "$status" -eq 0 ]  
+    do
+        choice=$(whiptail --backtitle " Программа написана на Whiptail"\
+                          --title "Описание цветовой схемы whiptail"\
+                          --menu "Клавишами верх/низ выберите справку и нажмите enter.
+                                 Для выхода выберите <Отмена>" 0 0 5 \
+        "1" "Путь к файлу цветовой конфигурации" \
+        "2" "Name может быть:" \
+        "3" "Цвет фона bg и текста fg может быть:" \
+        "4" "Показать пример" 3>&2 2>&1 1>&3) 
+         
+        # Application 3 Change to lower case and remove spaces.
+        option=$(echo $choice | tr '[:upper:]' '[:lower:]' | sed 's/ //g')
+        case "${option}" in
+            1) 
+ whiptail --title "Путь к файлу цветовой конфигурации" \
+          --msgbox "cd /etc/newt" 0 0
+            ;;
+            2)
+ whiptail --title "Name может быть:" \
+          --msgbox "\n
+root                  root fg, bg
+border                border fg, bg
+window                window fg, bg
+shadow                shadow fg, bg
+title                 title fg, bg
+button                button fg, bg
+actbutton             active button fg, bg
+checkbox              checkbox fg, bg
+actcheckbox           active checkbox fg, bg
+entry                 entry box fg, bg
+label                 label fg, bg
+listbox               listbox fg, bg
+actlistbox            active listbox fg, bg
+textbox               textbox fg, bg
+acttextbox            active textbox fg, bg
+helpline              help line
+roottext              root text
+emptyscale            scale full
+fullscale             scale empty
+disentry              disabled entry fg, bg
+compactbutton         compact button fg, bg
+actsellistbox         active & sel listbox
+sellistbox            selected listbox\n
+" 0 0
+            ;;
+            3)
+ whiptail --title "Цвет фона bg и текста fg может быть:" \
+          --msgbox "\n
+color0  or black
+color1  or red
+color2  or green
+color3  or brown
+color4  or blue
+color5  or magenta
+color6  or cyan
+color7  or lightgray
+color8  or gray
+color9  or brightred
+color10 or brightgreen
+color11 or yellow
+color12 or brightblue
+color13 or brightmagenta
+color14 or brightcyan
+color15 or white\n
+" 0 0
+            ;;
+            4)
+ whiptailColor
+            ;;
+            *) status=1
+                exit
+            ;;
+        esac
+    done
+else
+    exit
+fi
